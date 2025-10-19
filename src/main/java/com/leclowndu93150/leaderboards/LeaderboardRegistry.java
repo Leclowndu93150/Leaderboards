@@ -17,9 +17,9 @@ public class LeaderboardRegistry {
 
     public static void register() {
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "deaths"),
+                new ResourceLocation(Leaderboards.MODID, "deaths"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "deaths"),
+                        new ResourceLocation(Leaderboards.MODID, "deaths"),
                         Component.translatable("leaderboard.leaderboards.deaths"),
                         Stats.CUSTOM.get(Stats.DEATHS),
                         false
@@ -27,9 +27,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "mob_kills"),
+                new ResourceLocation(Leaderboards.MODID, "mob_kills"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "mob_kills"),
+                        new ResourceLocation(Leaderboards.MODID, "mob_kills"),
                         Component.translatable("leaderboard.leaderboards.mob_kills"),
                         Stats.CUSTOM.get(Stats.MOB_KILLS),
                         false
@@ -37,9 +37,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "player_kills"),
+                new ResourceLocation(Leaderboards.MODID, "player_kills"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "player_kills"),
+                        new ResourceLocation(Leaderboards.MODID, "player_kills"),
                         Component.translatable("leaderboard.leaderboards.player_kills"),
                         Stats.CUSTOM.get(Stats.PLAYER_KILLS),
                         false
@@ -47,9 +47,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "time_played"),
+                new ResourceLocation(Leaderboards.MODID, "time_played"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "time_played"),
+                        new ResourceLocation(Leaderboards.MODID, "time_played"),
                         Component.translatable("leaderboard.leaderboards.time_played"),
                         Stats.CUSTOM.get(Stats.PLAY_TIME),
                         false,
@@ -58,9 +58,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "jumps"),
+                new ResourceLocation(Leaderboards.MODID, "jumps"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "jumps"),
+                        new ResourceLocation(Leaderboards.MODID, "jumps"),
                         Component.translatable("leaderboard.leaderboards.jumps"),
                         Stats.CUSTOM.get(Stats.JUMP),
                         false
@@ -68,9 +68,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "distance_walked"),
+                new ResourceLocation(Leaderboards.MODID, "distance_walked"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "distance_walked"),
+                        new ResourceLocation(Leaderboards.MODID, "distance_walked"),
                         Component.translatable("leaderboard.leaderboards.distance_walked"),
                         Stats.CUSTOM.get(Stats.WALK_ONE_CM),
                         false,
@@ -79,9 +79,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "distance_sprinted"),
+                new ResourceLocation(Leaderboards.MODID, "distance_sprinted"),
                 new Leaderboard.FromStat(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "distance_sprinted"),
+                        new ResourceLocation(Leaderboards.MODID, "distance_sprinted"),
                         Component.translatable("leaderboard.leaderboards.distance_sprinted"),
                         Stats.CUSTOM.get(Stats.SPRINT_ONE_CM),
                         false,
@@ -90,9 +90,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "deaths_per_hour"),
+                new ResourceLocation(Leaderboards.MODID, "deaths_per_hour"),
                 new Leaderboard(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "deaths_per_hour"),
+                        new ResourceLocation(Leaderboards.MODID, "deaths_per_hour"),
                         Component.translatable("leaderboard.leaderboards.deaths_per_hour"),
                         player -> {
                             double dph = getDPH(player);
@@ -104,9 +104,9 @@ public class LeaderboardRegistry {
         );
 
         LEADERBOARDS.put(
-                ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "last_seen"),
+                new ResourceLocation(Leaderboards.MODID, "last_seen"),
                 new Leaderboard(
-                        ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "last_seen"),
+                        new ResourceLocation(Leaderboards.MODID, "last_seen"),
                         Component.translatable("leaderboard.leaderboards.last_seen"),
                         player -> {
                             if (player.server.getPlayerList().getPlayer(player.getUUID()) != null) {
@@ -133,9 +133,9 @@ public class LeaderboardRegistry {
 
         if (FTBQuestsIntegration.isAvailable()) {
             LEADERBOARDS.put(
-                    ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "quest_completions"),
+                    new ResourceLocation(Leaderboards.MODID, "quest_completions"),
                     new Leaderboard(
-                            ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "quest_completions"),
+                            new ResourceLocation(Leaderboards.MODID, "quest_completions"),
                             Component.translatable("leaderboard.leaderboards.quest_completions"),
                             player -> Component.literal(String.valueOf(FTBQuestsIntegration.getPlayerQuestCompletions(player))),
                             Comparator.comparingInt(FTBQuestsIntegration::getPlayerQuestCompletions).reversed(),
@@ -144,9 +144,9 @@ public class LeaderboardRegistry {
             );
 
             LEADERBOARDS.put(
-                    ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "quest_completion_percentage"),
+                    new ResourceLocation(Leaderboards.MODID, "quest_completion_percentage"),
                     new Leaderboard(
-                            ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "quest_completion_percentage"),
+                            new ResourceLocation(Leaderboards.MODID, "quest_completion_percentage"),
                             Component.translatable("leaderboard.leaderboards.quest_completion_percentage"),
                             player -> {
                                 double percentage = FTBQuestsIntegration.getQuestCompletionPercentage(player);

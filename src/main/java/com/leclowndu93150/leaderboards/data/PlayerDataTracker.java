@@ -1,7 +1,6 @@
 package com.leclowndu93150.leaderboards.data;
 
 import com.leclowndu93150.leaderboards.Leaderboards;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -18,7 +17,7 @@ public class PlayerDataTracker extends SavedData {
         return new PlayerDataTracker();
     }
 
-    public static PlayerDataTracker load(CompoundTag tag, HolderLookup.Provider provider) {
+    public static PlayerDataTracker load(CompoundTag tag) {
         PlayerDataTracker data = new PlayerDataTracker();
         CompoundTag playerData = tag.getCompound("PlayerData");
         for (String key : playerData.getAllKeys()) {
@@ -33,7 +32,7 @@ public class PlayerDataTracker extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
+    public CompoundTag save(CompoundTag tag) {
         CompoundTag playerData = new CompoundTag();
         for (Map.Entry<UUID, Long> entry : lastSeenTimes.entrySet()) {
             playerData.putLong(entry.getKey().toString(), entry.getValue());
@@ -44,7 +43,8 @@ public class PlayerDataTracker extends SavedData {
 
     public static PlayerDataTracker get(ServerLevel level) {
         return level.getDataStorage().computeIfAbsent(
-                new SavedData.Factory<>(PlayerDataTracker::create, PlayerDataTracker::load, null),
+                PlayerDataTracker::load,
+                PlayerDataTracker::create,
                 DATA_NAME
         );
     }

@@ -9,7 +9,7 @@ import dev.ftb.mods.ftblibrary.ui.input.MouseButton;
 import dev.ftb.mods.ftblibrary.ui.misc.ButtonListBaseScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.leclowndu93150.leaderboards.Leaderboards;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class LeaderboardListScreen extends ButtonListBaseScreen {
                 @Override
                 public void onClicked(MouseButton button) {
                     playClickSound();
-                    PacketDistributor.sendToServer(new RequestLeaderboardPacket(entry.getKey()));
+                    Leaderboards.NETWORK.sendToServer(new RequestLeaderboardPacket(entry.getKey()));
                 }
             });
         }

@@ -8,58 +8,55 @@ import com.leclowndu93150.leaderboards.gui.LeaderboardScreen;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.ServerStatsCounter;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.io.File;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-import static com.leclowndu93150.leaderboards.Leaderboards.MODID;
+public class LeaderboardResponsePacket {
+    private final Component title;
+    private final List<LeaderboardValue> values;
 
-public record LeaderboardResponsePacket(Component title, List<LeaderboardValue> values) implements CustomPacketPayload {
-    public static final Type<LeaderboardResponsePacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(MODID, "leaderboard_response"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, LeaderboardResponsePacket> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public LeaderboardResponsePacket decode(RegistryFriendlyByteBuf buf) {
-            Component title = ComponentSerialization.STREAM_CODEC.decode(buf);
-            int size = buf.readVarInt();
-            List<LeaderboardValue> values = new ArrayList<>();
-            for (int i = 0; i < size; i++) {
-                LeaderboardValue value = new LeaderboardValue();
-                value.username = buf.readUtf();
-                value.value = ComponentSerialization.STREAM_CODEC.decode(buf);
-                value.color = ChatFormatting.getById(buf.readByte());
-                values.add(value);
-            }
-            return new LeaderboardResponsePacket(title, values);
-        }
-
-        @Override
-        public void encode(RegistryFriendlyByteBuf buf, LeaderboardResponsePacket packet) {
-            ComponentSerialization.STREAM_CODEC.encode(buf, packet.title);
-            buf.writeVarInt(packet.values.size());
-            for (LeaderboardValue value : packet.values) {
-                buf.writeUtf(value.username);
-                ComponentSerialization.STREAM_CODEC.encode(buf, value.value);
-                buf.writeByte(value.color.getId());
-            }
-        }
-    };
+    public LeaderboardResponsePacket(Component title, List<LeaderboardValue> values) {
+        this.title = title;
+        this.values = values;
+    }
 
     public LeaderboardResponsePacket(ServerPlayer requestingPlayer, Leaderboard leaderboard) {
         this(leaderboard.getTitle(), createValues(requestingPlayer, leaderboard));
+    }
+
+    public static void encode(LeaderboardResponsePacket packet, FriendlyByteBuf buf) {
+        buf.writeComponent(packet.title);
+        buf.writeVarInt(packet.values.size());
+        for (LeaderboardValue value : packet.values) {
+            buf.writeUtf(value.username);
+            buf.writeComponent(value.value);
+            buf.writeByte(value.color.getId());
+        }
+    }
+
+    public static LeaderboardResponsePacket decode(FriendlyByteBuf buf) {
+        Component title = buf.readComponent();
+        int size = buf.readVarInt();
+        List<LeaderboardValue> values = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            LeaderboardValue value = new LeaderboardValue();
+            value.username = buf.readUtf();
+            value.value = buf.readComponent();
+            value.color = ChatFormatting.getById(buf.readByte());
+            values.add(value);
+        }
+        return new LeaderboardResponsePacket(title, values);
     }
 
     private static ServerStatsCounter loadPlayerStats(MinecraftServer server, UUID uuid) {
@@ -112,19 +109,13 @@ public record LeaderboardResponsePacket(Component title, List<LeaderboardValue> 
         return values;
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
-
-    public static void handle(LeaderboardResponsePacket packet, IPayloadContext context) {
-        if (context.flow().isClientbound()) {
-            context.enqueueWork(() -> {
-                Minecraft.getInstance().execute(() -> {
-                    LeaderboardScreen screen = new LeaderboardScreen(packet.title, packet.values);
-                    screen.openGui();
-                });
+    public static void handle(LeaderboardResponsePacket packet, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            Minecraft.getInstance().execute(() -> {
+                LeaderboardScreen screen = new LeaderboardScreen(packet.title, packet.values);
+                screen.openGui();
             });
-        }
+        });
+        ctx.get().setPacketHandled(true);
     }
 }
