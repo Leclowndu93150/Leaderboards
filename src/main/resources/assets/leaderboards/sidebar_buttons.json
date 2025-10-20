@@ -1,0 +1,10 @@
+{
+  "leaderboards": {
+    "group": "leaderboards:main",
+    "icon": "minecraft:item/oak_sign",
+    "x": 170,
+    "click": "leaderboards:open_leaderboards",
+    "config": true,
+    "loading_screen": true
+  }
+}

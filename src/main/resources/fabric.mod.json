@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "leaderboards",
+  "version": "${version}",
+  "name": "Leaderboards",
+  "description": "Brings back the old leaderboards menu from FTB Utilities.",
+  "authors": ["Leclowndu93150"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.leclowndu93150.leaderboards.client.LeaderboardsClient"
+    ],
+    "main": [
+      "com.leclowndu93150.leaderboards.Leaderboards"
+    ]
+  },
+  "mixins": [
+    "leaderboards.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
