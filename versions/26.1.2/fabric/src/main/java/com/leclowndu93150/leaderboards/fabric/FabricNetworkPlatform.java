@@ -1,0 +1,12 @@
+package com.leclowndu93150.leaderboards.fabric;
+
+import com.leclowndu93150.leaderboards.platform.NetworkPlatform;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+
+public class FabricNetworkPlatform implements NetworkPlatform {
+    @Override
+    public void sendToServer(CustomPacketPayload payload) {
+        ClientPlayNetworking.send(payload);
+    }
+}

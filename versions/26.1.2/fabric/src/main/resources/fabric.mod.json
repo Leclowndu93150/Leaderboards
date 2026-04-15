@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": ["${mod_author}"],
+  "license": "${license}",
+  "icon": "assets/leaderboards/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.leclowndu93150.leaderboards.fabric.LeaderboardsFabric"],
+    "client": ["com.leclowndu93150.leaderboards.fabric.LeaderboardsFabricClient"]
+  },
+  "mixins": ["leaderboards.mixins.json"],
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "minecraft": "~26.1",
+    "java": ">=${java_version}",
+    "baguettelib": "*",
+    "ftblibrary": "*"
+  }
+}
