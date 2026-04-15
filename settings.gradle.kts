@@ -21,4 +21,16 @@ prism {
         fabric()
         neoforge()
     }
+
+    version("1.21.1") {
+        common()
+        fabric()
+        neoforge()
+    }
+
+    version("1.20.1") {
+        common()
+        fabric()
+        forge()
+    }
 }

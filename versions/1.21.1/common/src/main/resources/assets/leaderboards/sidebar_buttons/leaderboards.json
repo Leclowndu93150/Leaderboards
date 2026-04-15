@@ -1,0 +1,10 @@
+{
+  "icon": [
+    "minecraft:item/oak_sign"
+  ],
+  "click": [
+    "leaderboards:open_leaderboards"
+  ],
+  "loading_screen": true,
+  "sort_index": 170
+}
