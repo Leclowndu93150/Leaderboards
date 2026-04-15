@@ -114,7 +114,7 @@ prism {
 
         curseforge {
             accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-            projectId = "1264423"
+            projectId = "1367888"
         }
     }
 }

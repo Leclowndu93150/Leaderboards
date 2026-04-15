@@ -15,7 +15,7 @@
   "mixins": ["leaderboards.mixins.json"],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
-    "fabric-api": ">=${fabric_api_version}",
+    "fabric-api": ">=${fabric_version}",
     "minecraft": "~26.1",
     "java": ">=${java_version}",
     "baguettelib": "*",
