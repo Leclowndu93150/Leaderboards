@@ -72,9 +72,20 @@ public class LeaderboardScreen extends AbstractButtonListScreen {
 
     @Override
     public boolean onInit() {
+        Theme theme = getTheme();
+        int maxRank = 0, maxUser = 0, maxVal = 0;
+        int rankDigits = String.valueOf(leaderboard.size()).length();
+        for (LeaderboardValue v : leaderboard) {
+            String rankText = "#" + "0".repeat(rankDigits);
+            maxRank = Math.max(maxRank, theme.getStringWidth(rankText) + 4);
+            maxUser = Math.max(maxUser, theme.getStringWidth(v.username) + 8);
+            maxVal = Math.max(maxVal, theme.getStringWidth(v.value.getString()) + 8);
+        }
+        int measuredWidth = maxRank + maxUser + maxVal;
+
         int maxW = (int) (getWindow().getGuiScaledWidth() * 0.9f);
         int maxH = (int) (getWindow().getGuiScaledHeight() * 0.9f);
-        int naturalW = Math.max(Math.min(totalWidth + 40, 400) + 34, 150);
+        int naturalW = Math.max(measuredWidth + 34 + 12, 150);
         int naturalH = Math.max(Math.min(leaderboard.size() * 15 + 40, 300) + 30, 180);
         setWidth(Math.min(naturalW, maxW));
         setHeight(Math.min(naturalH, maxH));

@@ -5,6 +5,7 @@ import com.leclowndu93150.leaderboards.network.RequestLeaderboardPacket;
 import com.leclowndu93150.leaderboards.platform.Services;
 import dev.ftb.mods.ftblibrary.client.gui.input.MouseButton;
 import dev.ftb.mods.ftblibrary.client.gui.screens.AbstractButtonListScreen;
+import dev.ftb.mods.ftblibrary.client.gui.theme.Theme;
 import dev.ftb.mods.ftblibrary.client.gui.widget.Panel;
 import dev.ftb.mods.ftblibrary.client.gui.widget.SimpleTextButton;
 import dev.ftb.mods.ftblibrary.icon.Icon;
@@ -27,9 +28,17 @@ public class LeaderboardListScreen extends AbstractButtonListScreen {
 
     @Override
     public boolean onInit() {
+        Theme theme = getTheme();
+        int maxLabel = 0;
+        for (Component c : leaderboards.values()) {
+            maxLabel = Math.max(maxLabel, theme.getStringWidth(c) + 40);
+        }
+        if (!VanillaStatsRegistry.VANILLA_STATS.isEmpty()) {
+            maxLabel = Math.max(maxLabel, theme.getStringWidth(Component.translatable("leaderboard.leaderboards.vanilla_stats")) + 40);
+        }
         int maxW = (int) (getWindow().getGuiScaledWidth() * 0.9f);
         int maxH = (int) (getWindow().getGuiScaledHeight() * 0.9f);
-        setWidth(Math.min(150, maxW));
+        setWidth(Math.min(Math.max(maxLabel, 150), maxW));
         setHeight(Math.min(180, maxH));
         return true;
     }
