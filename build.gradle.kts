@@ -81,6 +81,7 @@ prism {
     }
 
     version("1.20.1") {
+        version = "2.0.1"
         common {
             compileOnly("dev.ftb.mods:ftb-library-forge:2001.2.12")
             compileOnly("dev.architectury:architectury-forge:9.0.8")
@@ -100,7 +101,7 @@ prism {
             loaderVersion = "47.4.18"
             loaderVersionRange = "[47,)"
             dependencies {
-                implementation("dev.ftb.mods:ftb-library-forge:2001.2.12")
+                modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.12")
             }
             publishingDependencies {
                 requires("ftb-library-forge")
