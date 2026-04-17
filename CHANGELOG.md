@@ -1,3 +1,6 @@
+# 2.0.1
+fix crash with 1.20.1
+
 # 2.0.0
 
 Big release. The mod is now multiloader across three Minecraft versions and the UI got a full polish pass.

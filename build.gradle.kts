@@ -81,7 +81,7 @@ prism {
     }
 
     version("1.20.1") {
-        version = "2.0.1"
+        version = "2.0.2"
         common {
             compileOnly("dev.ftb.mods:ftb-library-forge:2001.2.12")
             compileOnly("dev.architectury:architectury-forge:9.0.8")
@@ -102,6 +102,9 @@ prism {
             loaderVersionRange = "[47,)"
             dependencies {
                 modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.12")
+                modImplementation("curse.maven:architectury-api-419699:5137938")
+                modRuntimeOnly("curse.maven:ftb-quests-forge-289412:7909594")
+                modRuntimeOnly("curse.maven:ftb-teams-forge-404468:7499810")
             }
             publishingDependencies {
                 requires("ftb-library-forge")
