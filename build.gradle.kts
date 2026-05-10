@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.leclowndu93150.leaderboards"
-version = "2.0.2"
+version = "2.0.3"
 
 prism {
     metadata {
@@ -82,7 +82,7 @@ prism {
     }
 
     version("1.20.1") {
-        version = "2.0.2"
+        version = "2.0.3"
         common {
             compileOnly("dev.ftb.mods:ftb-library-forge:2001.2.12")
             compileOnly("dev.architectury:architectury-forge:9.0.8")

@@ -40,6 +40,9 @@ public final class LeaderboardsClientEvents {
     private static boolean lastResult;
 
     private static boolean isSharedWorld() {
+        if (!LeaderboardsClientConfig.get().hideButtonWhenOnlyOnePlayerExist) {
+            return true;
+        }
         Minecraft mc = Minecraft.getInstance();
         IntegratedServer integrated = mc.getSingleplayerServer();
         if (integrated == null) {
