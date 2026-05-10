@@ -10,6 +10,7 @@ public final class NeoForgeClientEvents {
 
     public static void register(IEventBus gameBus) {
         gameBus.addListener(NeoForgeClientEvents::onCustomClick);
+        gameBus.addListener(NeoForgeClientEvents::onSidebarButtonCreated);
     }
 
     private static void onCustomClick(FTBLibraryEvent.CustomClick event) {
@@ -18,5 +19,9 @@ public final class NeoForgeClientEvents {
             LeaderboardsClient.openLeaderboardsList();
             event.setCanceled(true);
         }
+    }
+
+    private static void onSidebarButtonCreated(FTBLibraryEvent.SidebarButtonCreated event) {
+        LeaderboardsClient.onSidebarButtonCreated(event.getButton());
     }
 }

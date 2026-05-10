@@ -2,9 +2,21 @@ package com.leclowndu93150.leaderboards.client;
 
 import com.leclowndu93150.leaderboards.Leaderboards;
 import dev.architectury.event.EventResult;
+import dev.ftb.mods.ftblibrary.api.sidebar.SidebarButtonCreatedEvent;
 import dev.ftb.mods.ftblibrary.ui.CustomClickEvent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.LevelResource;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
 public final class LeaderboardsClientEvents {
+    private static final ResourceLocation SIDEBAR_BUTTON_ID = ResourceLocation.fromNamespaceAndPath(Leaderboards.MODID, "leaderboards");
+
     private LeaderboardsClientEvents() {}
 
     public static void init() {
@@ -16,5 +28,40 @@ public final class LeaderboardsClientEvents {
             }
             return EventResult.pass();
         });
+
+        SidebarButtonCreatedEvent.EVENT.register(event -> {
+            if (event.getButton().getId().equals(SIDEBAR_BUTTON_ID)) {
+                event.getButton().addVisibilityCondition(LeaderboardsClientEvents::isSharedWorld);
+            }
+        });
+    }
+
+    private static long lastCheckTick;
+    private static boolean lastResult;
+
+    private static boolean isSharedWorld() {
+        Minecraft mc = Minecraft.getInstance();
+        IntegratedServer integrated = mc.getSingleplayerServer();
+        if (integrated == null) {
+            return mc.getCurrentServer() != null;
+        }
+        long tick = integrated.getTickCount();
+        if (tick - lastCheckTick < 40 && lastCheckTick != 0) {
+            return lastResult;
+        }
+        lastCheckTick = tick;
+        lastResult = countPlayerData(integrated.getWorldPath(LevelResource.PLAYER_DATA_DIR)) > 1;
+        return lastResult;
+    }
+
+    private static int countPlayerData(Path dir) {
+        if (!Files.isDirectory(dir)) {
+            return 0;
+        }
+        try (Stream<Path> stream = Files.list(dir)) {
+            return (int) stream.filter(p -> p.getFileName().toString().endsWith(".dat")).count();
+        } catch (IOException e) {
+            return 0;
+        }
     }
 }

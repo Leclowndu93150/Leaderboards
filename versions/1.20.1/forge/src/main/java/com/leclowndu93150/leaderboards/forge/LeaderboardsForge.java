@@ -10,6 +10,7 @@ import com.leclowndu93150.leaderboards.network.LeaderboardResponsePacket;
 import com.leclowndu93150.leaderboards.network.RequestLeaderboardListPacket;
 import com.leclowndu93150.leaderboards.network.RequestLeaderboardPacket;
 import com.leclowndu93150.leaderboards.network.ServerHandlers;
+import dev.ftb.mods.ftblibrary.sidebar.SidebarButtonCreatedEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,6 +43,11 @@ public class LeaderboardsForge {
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
             LeaderboardsClientEvents.init();
+            SidebarButtonCreatedEvent.EVENT.register(event -> {
+                if (event.getButton().getId().equals(LeaderboardsClientEvents.SIDEBAR_BUTTON_ID)) {
+                    event.getButton().addVisibilityCondition(LeaderboardsClientEvents::isSharedWorld);
+                }
+            });
         }
     }
 

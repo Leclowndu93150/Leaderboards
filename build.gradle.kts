@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.leclowndu93150.leaderboards"
-version = "2.0.0"
+version = "2.0.2"
 
 prism {
     metadata {
@@ -20,6 +20,7 @@ prism {
     maven("architectury", "https://maven.architectury.dev/")
     maven("shedaniel", "https://maven.shedaniel.me/")
     maven("blamejared", "https://maven.blamejared.com/")
+    maven("forge", "https://maven.minecraftforge.net/")
 
     version("26.1.2") {
         common {
@@ -91,6 +92,7 @@ prism {
             fabricApi("0.92.8+1.20.1")
             dependencies {
                 modImplementation("dev.ftb.mods:ftb-library-fabric:2001.2.12")
+                compileOnly("net.minecraftforge:eventbus:6.0.5")
             }
             publishingDependencies {
                 requires("ftb-library-fabric")
@@ -99,7 +101,7 @@ prism {
         }
         forge {
             loaderVersion = "47.4.18"
-            loaderVersionRange = "[47,)"
+            loaderVersionRange = "[4,)"
             dependencies {
                 modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.12")
                 modImplementation("curse.maven:architectury-api-419699:5137938")

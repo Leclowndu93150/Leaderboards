@@ -5,6 +5,7 @@ import com.leclowndu93150.leaderboards.gui.LeaderboardListScreen;
 import com.leclowndu93150.leaderboards.gui.LeaderboardScreen;
 import com.leclowndu93150.leaderboards.network.LeaderboardListResponsePacket;
 import com.leclowndu93150.leaderboards.network.LeaderboardResponsePacket;
+import dev.ftb.mods.ftblibrary.sidebar.SidebarButtonCreatedEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
@@ -22,5 +23,11 @@ public class LeaderboardsFabricClient implements ClientModInitializer {
         });
 
         LeaderboardsClientEvents.init();
+
+        SidebarButtonCreatedEvent.EVENT.register(event -> {
+            if (event.getButton().getId().equals(LeaderboardsClientEvents.SIDEBAR_BUTTON_ID)) {
+                event.getButton().addVisibilityCondition(LeaderboardsClientEvents::isSharedWorld);
+            }
+        });
     }
 }

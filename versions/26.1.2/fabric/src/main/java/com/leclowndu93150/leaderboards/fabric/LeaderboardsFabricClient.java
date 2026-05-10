@@ -28,5 +28,7 @@ public class LeaderboardsFabricClient implements ClientModInitializer {
             }
             return false;
         });
+
+        FTBLibraryFabricEvents.SIDEBAR_BUTTON_CREATED.register(data -> LeaderboardsClient.onSidebarButtonCreated(data.button()));
     }
 }
